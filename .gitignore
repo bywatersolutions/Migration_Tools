@@ -12,13 +12,14 @@ basic_script.pl
 /migration/Alexandria
 /migration/Athena
 /migration/csv_to_marc
-/migration/Cybertools
+/migration/CyberTools
 /migration/Dynix_Classic
 /migration/FileMakerPro
 /migration/Follett
 /migration/FollettDestiny
 /migration/Horizon
 /migration/InfoCentre
+/migration/KohaForks
 /migration/LearningAccess
 /migration/LibraryWorld
 /migration/Mandarin
