@@ -1,0 +1,110 @@
+"046",2,"Source of date scheme",0,0
+"046","f","Birth date",0,0
+"046","g","Death date",0,0
+"046","k","Beginning or single date created",0,0
+"046","l","Ending date created",0,0
+"046","s","Start period",0,0
+"046","t","End period",0,0
+"046","u","Uniform Resource Identifier",1,0
+"046","v","Source of information",1,0
+336,2,"Source",0,3
+336,3,"Materials specified",0,3
+336,"a","Content type term",1,3
+336,"b","Content type code",1,3
+368,0,"Authority record control number or standard number",1,3
+368,2,"Source",0,3
+368,"a","Type of corporate body",1,3
+368,"b","Type of jurisdiction",1,3
+368,"c","Other designation",1,3
+368,"d","Title of person",1,3
+368,"s","Start period",0,3
+368,"t","End period",0,3
+368,"u","Uniform Resource Identifier",1,3
+368,"v","Source of information",1,3
+370,0,"Record control number",1,3
+370,2,"Source of term",0,3
+370,"a","Place of birth",0,3
+370,"b","Place of death",0,3
+370,"c","Associated country",1,3
+370,"e","Place of residence/headquarters",1,3
+370,"f","Other associated place",1,3
+370,"g","Place of origin of work",1,3
+370,"s","Start period",0,3
+370,"t","End period",0,3
+370,"u","Uniform Resource Identifier",1,3
+370,"v","Source of information",1,3
+371,"a","Address",1,3
+371,"b","City",0,3
+371,"c","Intermediate jurisdiction",0,3
+371,"d","Country",0,3
+371,"e","Postal code",0,3
+371,"m","Electronic mail address",1,3
+371,"s","Start period",0,3
+371,"t","End period",0,3
+371,"u","Uniform Resource Identifier",1,3
+371,"v","Source of information",1,3
+371,"z","Public note",1,3
+372,0,"Record control number",1,3
+372,2,"Source of term",0,3
+372,"a","Field of activity",1,3
+372,"s","Start period",0,3
+372,"t","End period",0,3
+372,"u","Uniform Resource Identifier",1,3
+372,"v","Source of information",1,3
+373,0,"Record control number",1,3
+373,2,"Source of term",0,3
+373,"a","Associated group",1,3
+373,"s","Start period",0,3
+373,"t","End period",0,3
+373,"u","Uniform Resource Identifier",1,3
+373,"v","Source of information",1,3
+374,"a","Occupation",1,3
+374,"s","Start period",0,3
+374,"t","End period",0,3
+374,"u","Uniform Resource Identifier",1,3
+374,"v","Source of information",1,3
+375,2,"Source of term",0,3
+375,"a","Gender",1,3
+375,"s","Start period",0,3
+375,"t","End period",0,3
+375,"u","Uniform Resource Identifier",1,3
+375,"v","Source of information",1,3
+376,0,"Record control number",1,3
+376,2,"Source of term",0,3
+376,"a","Type of family",1,3
+376,"b","Name of prominent member",1,3
+376,"c","Hereditary title",1,3
+376,"s","Start period",0,3
+376,"t","End period",0,3
+376,"u","Uniform Resource Identifier",1,3
+376,"v","Source of information",1,3
+377,2,"Source of code",0,3
+377,"a","Language code",1,3
+377,"l","Language term",1,3
+378,"q","Fuller form of personal name",0,3
+378,"u","Uniform Resource Identifier",1,3
+378,"v","Source of information",1,3
+380,0,"Record control number",1,3
+380,2,"Source of term",0,3
+380,"a","Form of work",1,3
+381,0,"Record control number",1,3
+381,2,"Source of term",0,3
+381,"a","Other distinguishing characteristic",1,3
+381,"u","Uniform Resource Identifier",1,3
+381,"v","Source of information",1,3
+382,0,"Authority record control number or standard number",1,3
+382,2,"Source of term",0,3
+382,"a","Medium of performance",1,3
+382,"b","Soloist",1,3
+382,"d","Doubling instrument",1,3
+382,"n","Number of performers of the same medium",1,3
+382,"p","Alternative medium of performance",1,3
+382,"s","Total number of performers",1,3
+382,"v","Note",1,3
+383,2,"Source",0,3
+383,"a","Serial number",1,3
+383,"b","Opus number",1,3
+383,"c","Thematic index number",1,3
+383,"d","Thematic index code",0,3
+383,"e","Publisher associated with opus number",0,3
+384,"a","Key",0,3
