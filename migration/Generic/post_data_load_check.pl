@@ -15,10 +15,13 @@
 #   -nothing
 #
 # DOES:
-#   -reports unused branch codes, item types, locations, collection codes, and patron categories, if --update is set.
+#   - reports unused branch codes, item types, locations, collection codes, and patron categories
+#   - reports missing branch codes, item types, locations, collection codes, and patron categories
 #   - checks to see if hold priority is set for non found/non transit items
-#   - checks for branchcode in issues/old issues
+#   - checks for missing branchcode,missing or bad dates (date_due) in issues/old issues
 #   - checks for existence of anonymous borrower
+#   - checks for Null 0000-00-00 dates in patrons (dateexpiry/dateenrolled)
+#   - checks for 0000-00-00 dates in items (onloan/datelastseen/datelastborrowed/dateaccessioned)
 #
 # CREATES:
 #   -nothing
@@ -41,29 +44,12 @@ use C4::Branch;
 local    $OUTPUT_AUTOFLUSH =  1;
 Readonly my $NULL_STRING   => q{};
 
-#my $debug   = 0;
-#my $doo_eet = 0;
-my $i       = 0;
-my $j       = 0;
-my $k       = 0;
-my $written = 0;
-my $problem = 0;
-
-my $input_filename = $NULL_STRING;
-
-#GetOptions(
-#    'debug'    => \$debug,
-#    'update'   => \$doo_eet,
-#);
-
-my $dbh = C4::Context->dbh();
+my $i = 0; 
+my $dbh = C4::Context->dbh(); 
 my $sth;
-my $sth_2;
-my $sth_3;
-my $insert_sth;
-my $del_sth;
 
-print "Identify UNUSED branches:\n";
+print "IDENTIFYING UNUSED BRANCHES,ITYPES,LOC,CCODE\n";
+print "\nIdentify UNUSED branches:\n";
 $i = 0;
 $sth = $dbh->prepare("SELECT branchcode FROM branches 
                       WHERE branchcode NOT IN (SELECT DISTINCT homebranch FROM items)
@@ -177,7 +163,6 @@ $i = 0;
 $sth = $dbh->prepare("SELECT DISTINCT location FROM items
                       WHERE location IS NOT NULL
                       AND location NOT IN (SELECT authorised_value FROM authorised_values WHERE category='LOC')");
-#$insert_sth = $dbh->prepare("INSERT INTO authorised_values (category,authorised_value,lib) VALUES ('LOC',?,?)");
 $sth->execute();
 while (my $line=$sth->fetchrow_hashref()) {
    $i++;
@@ -192,7 +177,6 @@ $i = 0;
 $sth = $dbh->prepare("SELECT DISTINCT ccode FROM items
                       WHERE ccode IS NOT NULL
                       AND ccode NOT IN (SELECT authorised_value FROM authorised_values WHERE category='CCODE')");
-#$insert_sth = $dbh->prepare("INSERT INTO authorised_values (category,authorised_value,lib) VALUES ('CCODE',?,?)");
 $sth->execute();
 while (my $line=$sth->fetchrow_hashref()) {
    $i++;
@@ -327,8 +311,8 @@ while (my $line2=$sth2->fetchrow_hashref()) {
 }
 
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
-print "Report on 00:00:00 time in issues\n";
-$sth = $dbh->prepare("SELECT count(*) FROM issues WHERE date_due like '%00:00:00%' ");
+print "Report on 00:00:00 time or 0000-00-00 date in issues\n";
+$sth = $dbh->prepare("SELECT count(*) FROM issues WHERE date_due like '%00:00:00%' or date_due like '0000-%' or date_due is NULL ");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -343,5 +327,41 @@ $sth->execute();
 while (my $line=$sth->fetchrow_hashref()) {
    print "$line->{'count(*)'} reserves have bad priority  \n";
 }
+
+
+print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
+print "Report bad onloan for items\n";
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE onloan like '0000%; ");
+$sth->execute();
+
+while (my $line=$sth->fetchrow_hashref()) {
+   print "$line->{'count(*)'} items have bad onloan date \n";
+}
+
+print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
+print "Report bad datelastseen for items\n";
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastseen like '0000%; ");
+$sth->execute();
+
+while (my $line=$sth->fetchrow_hashref()) {
+   print "$line->{'count(*)'} items have bad datelastseen date \n";
+}
+print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
+print "Report bad datelastborrowed for items\n";
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastborrowed like '0000%; ");
+$sth->execute();
+
+while (my $line=$sth->fetchrow_hashref()) {
+   print "$line->{'count(*)'} items have bad datelastborrowed date \n";
+}
+print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
+print "Report bad dateaccessioned for items\n";
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE dateaccessioned like '0000%; ");
+$sth->execute();
+
+while (my $line=$sth->fetchrow_hashref()) {
+   print "$line->{'count(*)'} items have bad dateaccessioned \n";
+}
+
 
 exit;
