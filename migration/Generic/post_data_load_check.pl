@@ -39,7 +39,6 @@ use Getopt::Long;
 use Readonly;
 use Text::CSV_XS;
 use C4::Context;
-use C4::Branch;
 
 local    $OUTPUT_AUTOFLUSH =  1;
 Readonly my $NULL_STRING   => q{};
@@ -302,7 +301,7 @@ $sth->execute();
 $sth2->execute();
 while (my $line2=$sth2->fetchrow_hashref()) {
   my $line=$sth->fetchrow_hashref();
-  if ($line->{'max(issue_id)'} < $line2->{'max(issue_id)'}) {
+  if ( ( $line2->{'max(issue_id)'} ) && ( $line->{'max(issue_id)'} < $line2->{'max(issue_id)'} )) {
    print "\nMax issue_id in issues is NOT larger than old_issues.  This will be a problem.\n"; 
   }
   else {
@@ -331,7 +330,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad onloan for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE onloan like '0000%; ");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE onloan like '0000%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -340,7 +339,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad datelastseen for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastseen like '0000%; ");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastseen like '0000%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -348,7 +347,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 }
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad datelastborrowed for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastborrowed like '0000%; ");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastborrowed like '0000%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -356,7 +355,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 }
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad dateaccessioned for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE dateaccessioned like '0000%; ");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE dateaccessioned like '0000%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
