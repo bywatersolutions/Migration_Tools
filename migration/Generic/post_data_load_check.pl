@@ -330,7 +330,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad onloan for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE onloan like '0000%'");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE onloan like '0000%' or onloan like '%-00%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -339,7 +339,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad datelastseen for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastseen like '0000%'");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastseen like '0000%' or datelastseen like '%-00%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -347,7 +347,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 }
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad datelastborrowed for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastborrowed like '0000%'");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE datelastborrowed like '0000%' or datelastborrowed like '%-00%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
@@ -355,7 +355,7 @@ while (my $line=$sth->fetchrow_hashref()) {
 }
 print "\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n";
 print "Report bad dateaccessioned for items\n";
-$sth = $dbh->prepare("SELECT count(*) FROM items WHERE dateaccessioned like '0000%'");
+$sth = $dbh->prepare("SELECT count(*) FROM items WHERE dateaccessioned like '0000%' or dateaccessioned like '%-00%'");
 $sth->execute();
 
 while (my $line=$sth->fetchrow_hashref()) {
