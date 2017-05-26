@@ -68,23 +68,38 @@ while (my $thisrec=$sth->fetchrow_hashref()){
    print "\r$i" unless ($i % 100);
    
    my $rec = GetMarcBiblio($thisrec->{'biblionumber'});
+   my $field = $rec->field("942");
 
-   my $curval = $rec->subfield("942","c") || "";
 
    $item_sth->execute($thisrec->{'biblionumber'});
    my $itmrec=$item_sth->fetchrow_hashref();
-   my $val = $itmrec->{'itype'} || "";
+   my $val = $itmrec->{'itype'} || "NONEFOUND";
    $val = $itype_map{$val} if (exists ($itype_map{$val}));
 
-   if ($val ne $curval){
-     $debug and print "Biblio: $thisrec->{'biblionumber'}  Old: $curval New: $val\n";
-     $rec->field("942")->update( "c" => $val );
-     if ($doo_eet){
+
+   if ($field) {
+     my $curval = $rec->subfield("942","c") || "";
+
+     if ( ($val ne 'NONEFOUND') && ($val ne $curval) ) {
+       $debug and print "Biblio: $thisrec->{'biblionumber'}  Old: $curval New: $val\n";
+       $rec->field("942")->update( "c" => $val );
+       if ($doo_eet){
             $upd_sth->execute($val,$thisrec->{'biblionumber'});
             C4::Biblio::ModBiblioMarc($rec,$thisrec->{'biblionumber'}, $thisrec->{'frameworkcode'});
+       }
+       $modified++;
      }
-     $modified++;
-
+   }
+   else {
+     if ($val ne 'NONEFOUND') {
+      my $field = MARC::Field->new("942"," "," ","c" => $val);
+      $rec->insert_grouped_field($field);
+      $debug and print "Inserting new 942 c $val on $thisrec->{'biblionumber'} \n";
+      if ($doo_eet) {
+        C4::Biblio::ModBiblioMarc($rec,$thisrec->{'biblionumber'}, $thisrec->{'frameworkcode'});
+        $modified++;
+      }
+     }
    }
 }
 print "\n\n$i records examined.\n$modified records modified.\n";
